@@ -53,6 +53,7 @@ class _HouseInfo extends StatelessWidget {
                 final image = house.images[index];
                 return Image.network(
                   image,
+                  fit: BoxFit.cover,
                 );
               },
             ),
