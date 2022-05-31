@@ -43,9 +43,8 @@ class HousesNotifier extends StateNotifier<AsyncValue<List<House>>> {
       return;
     }
 
-    final filteredData = [
-      ...cache.where((element) => element.type == type).toList()
-    ];
+    final filteredData =
+        cache.where((element) => element.type == type).toList();
 
     state = AsyncData(filteredData);
   }

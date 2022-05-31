@@ -40,32 +40,30 @@ class _HousesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final paddingTop = MediaQuery.of(context).padding.top;
     final paddingBottom = MediaQuery.of(context).padding.bottom;
+    final paddingTop = MediaQuery.of(context).padding.top;
 
-    return Column(
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        SizedBox(height: paddingTop),
-        const _Filters(),
-        Expanded(
-          child: ListView.separated(
-            shrinkWrap: true,
-            padding: EdgeInsets.fromLTRB(
-              kOutsideGap,
-              kOutsideGap,
-              kOutsideGap,
-              paddingBottom,
-            ),
-            separatorBuilder: (context, index) => const SizedBox(
-              height: kOutsideGap,
-            ),
-            itemCount: houses.length,
-            itemBuilder: (context, index) {
-              final house = houses[index];
-              return _HouseCard(house);
-            },
+        ListView.separated(
+          shrinkWrap: true,
+          padding: EdgeInsets.fromLTRB(
+            kOutsideGap,
+            paddingTop + 4 * kOutsideGap,
+            kOutsideGap,
+            paddingBottom,
           ),
+          separatorBuilder: (context, index) => const SizedBox(
+            height: kOutsideGap,
+          ),
+          itemCount: houses.length,
+          itemBuilder: (context, index) {
+            final house = houses[index];
+            return _HouseCard(house);
+          },
         ),
+        const _Filters(),
       ],
     );
   }
@@ -76,22 +74,40 @@ class _Filters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: kOutsideGap,
-      ),
-      child: Row(
-        children: List.generate(
-          HouseTypeConverter.numberOfTypes + 1,
-          (index) {
-            if (index == 0) {
-              return const _FilterOption(
-                type: HouseType.all(),
-              );
-            }
-            final type = HouseTypeConverter.types[index - 1];
-            return _FilterOption(type: type);
-          },
+    final paddingTop = MediaQuery.of(context).padding.top;
+
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Container(
+        padding: EdgeInsets.fromLTRB(
+          kOutsideGap,
+          paddingTop,
+          kOutsideGap,
+          kOutsideGap / 2,
+        ),
+        decoration: const BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(0, 9.0),
+              color: kShadowColor,
+              blurRadius: 16,
+            )
+          ],
+          color: Colors.white,
+        ),
+        child: Row(
+          children: List.generate(
+            HouseTypeConverter.numberOfTypes + 1,
+            (index) {
+              if (index == 0) {
+                return const _FilterOption(
+                  type: HouseType.all(),
+                );
+              }
+              final type = HouseTypeConverter.types[index - 1];
+              return _FilterOption(type: type);
+            },
+          ),
         ),
       ),
     );
