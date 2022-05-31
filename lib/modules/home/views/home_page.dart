@@ -1,5 +1,6 @@
 import 'package:elki_houses/core/ui.dart';
 import 'package:elki_houses/core/utils/extensions.dart';
+import 'package:elki_houses/core/widgets/error_refresh_button.dart';
 import 'package:elki_houses/core/widgets/house_title.dart';
 import 'package:elki_houses/core/widgets/loading.dart';
 import 'package:elki_houses/modules/details/views/details_page.dart';
@@ -22,7 +23,10 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       body: housesState.when(
         data: (data) => _HousesList(data),
-        error: (err, trace) => Text(err.toString()),
+        error: (err, trace) => ErrorRefreshButton(
+          errorMessage: err.toString(),
+          onTap: () => ref.read(housesProvider.notifier).started(),
+        ),
         loading: () {
           return const Center(
             child: LoadingIndicator(),
