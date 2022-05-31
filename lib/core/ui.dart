@@ -17,7 +17,12 @@ const Color kInactiveColor = Color(0xFFEDEDED);
 const Color kTextDisabled = Color(0xFF888888);
 const Color kShadowColor = Color.fromRGBO(67, 49, 117, 0.15);
 
-const titleStyle = TextStyle(
+const kPrimaryStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontSize: 19,
+);
+
+const kCaptionStyle = TextStyle(
+  fontSize: 14,
+  fontWeight: FontWeight.w400,
 );

@@ -1,11 +1,13 @@
 import 'package:elki_houses/core/ui.dart';
 import 'package:elki_houses/core/utils/extensions.dart';
+import 'package:elki_houses/core/widgets/house_title.dart';
 import 'package:elki_houses/core/widgets/loading.dart';
 import 'package:elki_houses/modules/details/views/details_page.dart';
 import 'package:elki_houses/modules/home/controllers/filter_provider.dart';
 import 'package:elki_houses/modules/home/controllers/houses_provider.dart';
 import 'package:elki_houses/modules/home/models/house.dart';
 import 'package:elki_houses/modules/home/models/house_type.dart';
+import 'package:elki_houses/core/widgets/price_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -246,18 +248,7 @@ class _HouseInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  Text(house.name, style: titleStyle),
-                  const SizedBox(width: 4),
-                  Text(
-                    house.location,
-                    style: titleStyle.copyWith(
-                      color: kTextDisabled,
-                    ),
-                  ),
-                ],
-              ),
+              HouseTitle(house),
               const SizedBox(height: kOutsideGap),
               Row(
                 children: [
@@ -269,21 +260,8 @@ class _HouseInfo extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                          '${house.price} ₽',
-                          style: titleStyle,
-                        ),
-                        const Text(
-                          '/сут.',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
+                    child: PriceWidget(
+                      house.price,
                     ),
                   ),
                 ],
@@ -332,14 +310,9 @@ class _HouseImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return house.images.isEmpty
         ? const SizedBox()
-        : ClipRRect(
-            borderRadius: BorderRadius.circular(
-              kBorderRadius,
-            ),
-            child: Image.network(
-              house.images.first,
-              fit: BoxFit.cover,
-            ),
+        : Image.network(
+            house.images.first,
+            fit: BoxFit.cover,
           );
   }
 }
