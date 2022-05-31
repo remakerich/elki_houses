@@ -1,5 +1,7 @@
 # elki_houses
 
+![image](https://user-images.githubusercontent.com/85007290/171259041-c8a2cc08-4208-43ec-90d6-e0315e43b8df.png)
+
 Тестовое задание
 Необходимо написать простое приложение на flutter, для просмотра информации о домах в соответствии с макетами в figma. 
 
