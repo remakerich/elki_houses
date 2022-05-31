@@ -1,4 +1,5 @@
 import 'package:elki_houses/core/ui.dart';
+import 'package:elki_houses/core/utils/extensions.dart';
 import 'package:elki_houses/core/widgets/loading.dart';
 import 'package:elki_houses/modules/details/views/details_page.dart';
 import 'package:elki_houses/modules/home/controllers/filter_provider.dart';
@@ -47,12 +48,13 @@ class _HousesList extends StatelessWidget {
       fit: StackFit.expand,
       children: [
         ListView.separated(
+          physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           padding: EdgeInsets.fromLTRB(
             kOutsideGap,
             paddingTop + 4 * kOutsideGap,
             kOutsideGap,
-            paddingBottom,
+            paddingBottom + kOutsideGap,
           ),
           separatorBuilder: (context, index) => const SizedBox(
             height: kOutsideGap,
@@ -81,7 +83,7 @@ class _Filters extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.fromLTRB(
           kOutsideGap,
-          paddingTop,
+          paddingTop + kOutsideGap / 2,
           kOutsideGap,
           kOutsideGap / 2,
         ),
@@ -246,21 +248,42 @@ class _HouseInfo extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Text(house.name),
+                  Text(house.name, style: titleStyle),
                   const SizedBox(width: 4),
-                  Text(house.location),
+                  Text(
+                    house.location,
+                    style: titleStyle.copyWith(
+                      color: kTextDisabled,
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: kOutsideGap),
               Row(
                 children: [
-                  Text(house.rating.toString()),
+                  _RatingStars(house.rating),
                   const SizedBox(width: 4),
-                  Text(house.reviewCount.toString()),
+                  Text(
+                    reviewCountFormatted(
+                      house.reviewCount,
+                    ),
+                  ),
                   Expanded(
-                    child: Text(
-                      house.price.toString(),
-                      textAlign: TextAlign.end,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          '${house.price} ₽',
+                          style: titleStyle,
+                        ),
+                        const Text(
+                          '/сут.',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -268,6 +291,31 @@ class _HouseInfo extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _RatingStars extends StatelessWidget {
+  const _RatingStars(
+    this.rating, {
+    Key? key,
+  }) : super(key: key);
+
+  final int rating;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: List.generate(
+        5,
+        (index) {
+          return Icon(
+            Icons.star,
+            size: 18,
+            color: index < rating ? kPrimaryColor : kTextDisabled,
+          );
+        },
       ),
     );
   }
